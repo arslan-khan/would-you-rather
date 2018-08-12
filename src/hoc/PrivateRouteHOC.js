@@ -6,6 +6,7 @@ import { LOGIN_PAGE_URL } from '../constants/pageUrls';
 
 const PrivateRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
   <Route
+    exact
     {...rest}
     render={props =>
       isAuthed ? (
