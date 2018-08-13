@@ -1,22 +1,45 @@
 import React from 'react';
-import { Menu, Image } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Menu, Image, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { DASHBOARD_PAGE_URL } from '../../constants/pageUrls';
+import { logoutRequest } from '../../actions/sessionActions';
 
-const Navbar = () => (
+const Navbar = ({ loggedInUser, logoutRequest }) => (
   <Menu pointing secondary>
     <Menu.Item name="home" as={NavLink} to={DASHBOARD_PAGE_URL} exact />
 
     <Menu.Menu position="right">
       <Menu.Item>
-        <Image
-          avatar
-          src="https://react.semantic-ui.com/images/avatar/small/daniel.jpg"
-        />
+        <Image avatar src={loggedInUser.avatarURL} />
+        <span>
+          {loggedInUser.name} |{' '}
+          <Button
+            circular
+            icon="log out"
+            size="mini"
+            color="teal"
+            onClick={() => logoutRequest()}
+          />
+        </span>
       </Menu.Item>
     </Menu.Menu>
   </Menu>
 );
 
-export default Navbar;
+Navbar.propTypes = {
+  loggedInUser: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+  }).isRequired,
+  logoutRequest: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ users }) => ({ loggedInUser: users.loggedInUser });
+
+export default connect(
+  mapStateToProps,
+  { logoutRequest },
+)(Navbar);

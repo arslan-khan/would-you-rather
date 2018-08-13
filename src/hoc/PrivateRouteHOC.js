@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 
 import Navbar from '../components/common/Navbar';
 import { LOGIN_PAGE_URL } from '../constants/pageUrls';
@@ -11,10 +12,10 @@ const PrivateRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
     {...rest}
     render={props =>
       isAuthed ? (
-        <Fragment>
+        <Container>
           <Navbar />
           <Component {...props} />
-        </Fragment>
+        </Container>
       ) : (
         <Redirect
           to={{

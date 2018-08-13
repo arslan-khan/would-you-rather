@@ -63,7 +63,7 @@ class LoginPage extends Component {
     const { users } = this.props;
 
     return (
-      <Grid columns={2} centered style={{ paddingTop: '100px' }}>
+      <Grid columns={3} centered style={{ paddingTop: '100px' }}>
         <Grid.Column>
           <Header as="h1" textAlign="center" icon>
             <Icon name="balance scale" circular color="teal" inverted />
