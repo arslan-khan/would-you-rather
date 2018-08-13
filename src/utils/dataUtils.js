@@ -2,7 +2,7 @@ let users = {
   sarahedo: {
     id: 'sarahedo',
     name: 'Sarah Edo',
-    avatarURL: '../../images/snow.jpg',
+    avatarURL: 'https://react.semantic-ui.com/images/avatar/small/rachel.png',
     answers: {
       '8xf0y6ziyjabvozdd253nd': 'optionOne',
       '6ni6ok3ym7mf1p33lnez': 'optionOne',
@@ -14,7 +14,7 @@ let users = {
   tylermcginnis: {
     id: 'tylermcginnis',
     name: 'Tyler McGinnis',
-    avatarURL: '../../images/tyler.jpg',
+    avatarURL: 'https://react.semantic-ui.com/images/avatar/small/matthew.png',
     answers: {
       vthrdm985a262al8qx3do: 'optionOne',
       xj352vofupe1dqz9emx13r: 'optionTwo',
@@ -24,7 +24,7 @@ let users = {
   johndoe: {
     id: 'johndoe',
     name: 'John Doe',
-    avatarURL: '../../images/leaf.jpg',
+    avatarURL: 'https://react.semantic-ui.com/images/avatar/small/mark.png',
     answers: {
       xj352vofupe1dqz9emx13r: 'optionOne',
       vthrdm985a262al8qx3do: 'optionTwo',
@@ -126,13 +126,13 @@ function generateUID() {
   );
 }
 
-export function _getUsers() {
+function getUsers() {
   return new Promise((res, rej) => {
     setTimeout(() => res({ ...users }), 1000);
   });
 }
 
-export function _getQuestions() {
+function getQuestions() {
   return new Promise((res, rej) => {
     setTimeout(() => res({ ...questions }), 1000);
   });
@@ -154,7 +154,7 @@ function formatQuestion({ optionOneText, optionTwoText, author }) {
   };
 }
 
-export function _saveQuestion(question) {
+function saveQuestion(question) {
   return new Promise((res, rej) => {
     const authedUser = question.author;
     const formattedQuestion = formatQuestion(question);
@@ -178,7 +178,7 @@ export function _saveQuestion(question) {
   });
 }
 
-export function _saveQuestionAnswer({ authedUser, qid, answer }) {
+function saveQuestionAnswer({ authedUser, qid, answer }) {
   return new Promise((res, rej) => {
     setTimeout(() => {
       users = {
@@ -207,3 +207,5 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
     }, 500);
   });
 }
+
+export {getUsers, getQuestions, saveQuestion, saveQuestionAnswer,}
