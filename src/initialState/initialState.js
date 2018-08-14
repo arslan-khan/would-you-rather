@@ -3,7 +3,7 @@ const initialState = {
     isAuthed: false,
   },
   users: {
-    users: [],
+    users: null,
     loggedInUser: null,
   },
   questions: [],

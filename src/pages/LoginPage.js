@@ -19,10 +19,12 @@ import { stripWhiteSpaces } from '../utils/formUtils';
 
 class LoginPage extends Component {
   static propTypes = {
-    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    users: PropTypes.shape({}),
     fetchUsersRequest: PropTypes.func.isRequired,
     authLoginRequest: PropTypes.func.isRequired,
   };
+
+  static defaultProps = { users: null };
 
   state = {
     name: '',
@@ -40,7 +42,7 @@ class LoginPage extends Component {
     const { name } = this.state;
     const { users } = this.props;
 
-    const user = users.find(user => user.id === stripWhiteSpaces(name));
+    const user = users[stripWhiteSpaces(name)];
     if (user) {
       return this.logUserIn(user);
     }
@@ -79,7 +81,7 @@ class LoginPage extends Component {
                   content="Please hover over an image below to get the user's info!"
                 />
 
-                {users.map(user => (
+                {Object.values(users).map(user => (
                   <Popup
                     inverted
                     size="tiny"

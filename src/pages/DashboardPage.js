@@ -35,7 +35,7 @@ class DashboardPage extends Component {
 
     return (
       <Grid>
-        <Grid.Row style={{ paddingTop: '30px' }}>
+        <Grid.Row style={{ paddingTop: '40px' }}>
           <QuestionsList
             type="Answered Questions"
             questions={answeredQuestions}

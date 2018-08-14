@@ -7,7 +7,7 @@ import {
 const usersReducer = (state = initialState.users, action) => {
   switch (action.type) {
     case FETCH_USERS_SUCCESS:
-      return { ...state, users: Object.values(action.users) };
+      return { ...state, users: action.users };
 
     case AUTH_LOGIN_SUCCESS:
       return { ...state, loggedInUser: action.user };
