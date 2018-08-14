@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+import QuestionsList from '../components/Questions/QuestionsList';
 import { fetchQuestionsRequest } from '../actions/questionsActions';
+import {
+  getAnsweredQuestions,
+  getUnansweredQuestions,
+} from '../selectors/questionsSelectors';
 
 class DashboardPage extends Component {
   static propTypes = {
     fetchQuestionsRequest: PropTypes.func.isRequired,
-    questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    answeredQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    unAnsweredQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   componentDidMount() {
@@ -17,9 +23,9 @@ class DashboardPage extends Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { answeredQuestions, unAnsweredQuestions } = this.props;
 
-    if (!questions.length) {
+    if (!answeredQuestions.length) {
       return (
         <Dimmer active inverted>
           <Loader size="large">Loading</Loader>
@@ -27,11 +33,28 @@ class DashboardPage extends Component {
       );
     }
 
-    return <h1>Dashboard Page</h1>;
+    return (
+      <Grid>
+        <Grid.Row style={{ paddingTop: '30px' }}>
+          <QuestionsList
+            type="Answered Questions"
+            questions={answeredQuestions}
+          />
+
+          <QuestionsList
+            type="Unanswered Questions"
+            questions={unAnsweredQuestions}
+          />
+        </Grid.Row>
+      </Grid>
+    );
   }
 }
 
-const mapStateToProps = ({ questions }) => ({ questions });
+const mapStateToProps = ({ questions }) => ({
+  answeredQuestions: getAnsweredQuestions(questions),
+  unAnsweredQuestions: getUnansweredQuestions(questions),
+});
 
 export default connect(
   mapStateToProps,
