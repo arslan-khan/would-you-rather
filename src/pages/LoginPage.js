@@ -3,9 +3,6 @@ import {
   Grid,
   Header,
   Segment,
-  Form,
-  Input,
-  Button,
   Icon,
   Message,
   Divider,
@@ -15,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import LoginForm from '../components/forms/LoginForm';
 import { authLoginRequest } from '../actions/sessionActions';
 import { fetchUsersRequest } from '../actions/usersActions';
 import { stripWhiteSpaces } from '../utils/formUtils';
@@ -102,24 +100,12 @@ class LoginPage extends Component {
               </Fragment>
             )}
 
-            <Form onSubmit={this.onSubmitHandler} loading={!users.length}>
-              <Form.Field
-                id="name"
-                name="name"
-                control={Input}
-                label="Name"
-                placeholder="Please type your name here..."
-                value={name}
-                onChange={this.onChangeHandler}
-              />
-
-              <Button type="submit" color="teal" fluid animated="fade">
-                <Button.Content visible>Login</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="sign in" />
-                </Button.Content>
-              </Button>
-            </Form>
+            <LoginForm
+              onSubmitHandler={this.onSubmitHandler}
+              users={users}
+              name={name}
+              onChangeHandler={this.onChangeHandler}
+            />
           </Segment>
         </Grid.Column>
       </Grid>

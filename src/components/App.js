@@ -3,23 +3,46 @@ import { Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import DashboardPage from '../pages/DashboardPage';
+import LeaderBoardPage from '../pages/LeaderBoardPage';
+import LoginPage from '../pages/LoginPage';
+import NewQuestionPage from '../pages/NewQuestionPage';
 import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
-import LoginPage from '../pages/LoginPage';
-import DashboardPage from '../pages/DashboardPage';
-import { LOGIN_PAGE_URL, DASHBOARD_PAGE_URL } from '../constants/pageUrls';
+import {
+  DASHBOARD_PAGE_URL,
+  LEADER_BOARD_PAGE_URL,
+  LOGIN_PAGE_URL,
+  NEW_QUESTION_PAGE_URL,
+} from '../constants/pageUrls';
 
 const App = ({ isAuthed }) => (
   <Switch>
     <PublicRouteHOC
+      exact
       path={LOGIN_PAGE_URL}
       component={LoginPage}
       isAuthed={isAuthed}
     />
 
     <PrivateRouteHOC
+      exact
       path={DASHBOARD_PAGE_URL}
       component={DashboardPage}
+      isAuthed={isAuthed}
+    />
+
+    <PrivateRouteHOC
+      exact
+      path={LEADER_BOARD_PAGE_URL}
+      component={LeaderBoardPage}
+      isAuthed={isAuthed}
+    />
+
+    <PrivateRouteHOC
+      exact
+      path={NEW_QUESTION_PAGE_URL}
+      component={NewQuestionPage}
       isAuthed={isAuthed}
     />
   </Switch>

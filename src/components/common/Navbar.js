@@ -1,15 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Image, Button } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { DASHBOARD_PAGE_URL } from '../../constants/pageUrls';
+import {
+  DASHBOARD_PAGE_URL,
+  LEADER_BOARD_PAGE_URL,
+  NEW_QUESTION_PAGE_URL,
+} from '../../constants/pageUrls';
 import { logoutRequest } from '../../actions/sessionActions';
 
 const Navbar = ({ loggedInUser, logoutRequest }) => (
   <Menu pointing secondary>
     <Menu.Item name="home" as={NavLink} to={DASHBOARD_PAGE_URL} exact />
+    <Menu.Item
+      name="new question"
+      as={NavLink}
+      to={NEW_QUESTION_PAGE_URL}
+      exact
+    />
+    <Menu.Item
+      name="leader board"
+      as={NavLink}
+      to={LEADER_BOARD_PAGE_URL}
+      exact
+    />
 
     <Menu.Menu position="right">
       <Menu.Item>
@@ -39,7 +55,9 @@ Navbar.propTypes = {
 
 const mapStateToProps = ({ users }) => ({ loggedInUser: users.loggedInUser });
 
-export default connect(
-  mapStateToProps,
-  { logoutRequest },
-)(Navbar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logoutRequest },
+  )(Navbar),
+);

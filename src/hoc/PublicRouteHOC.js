@@ -6,7 +6,6 @@ import { DASHBOARD_PAGE_URL } from '../constants/pageUrls';
 
 const PublicRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
   <Route
-    exact
     {...rest}
     render={props =>
       !isAuthed ? (
