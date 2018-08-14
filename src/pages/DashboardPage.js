@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import QuestionsList from '../components/Questions/QuestionsList';
@@ -13,8 +13,14 @@ import {
 class DashboardPage extends Component {
   static propTypes = {
     fetchQuestionsRequest: PropTypes.func.isRequired,
-    answeredQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    unAnsweredQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    users: PropTypes.shape({}).isRequired,
+    answeredQuestions: PropTypes.arrayOf(PropTypes.object),
+    unAnsweredQuestions: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    answeredQuestions: null,
+    unAnsweredQuestions: null,
   };
 
   componentDidMount() {
@@ -23,9 +29,9 @@ class DashboardPage extends Component {
   }
 
   render() {
-    const { answeredQuestions, unAnsweredQuestions } = this.props;
+    const { users, answeredQuestions, unAnsweredQuestions } = this.props;
 
-    if (!answeredQuestions.length) {
+    if (!answeredQuestions || !unAnsweredQuestions) {
       return (
         <Dimmer active inverted>
           <Loader size="large">Loading</Loader>
@@ -33,27 +39,49 @@ class DashboardPage extends Component {
       );
     }
 
-    return (
-      <Grid>
-        <Grid.Row style={{ paddingTop: '40px' }}>
-          <QuestionsList
-            type="Answered Questions"
-            questions={answeredQuestions}
-          />
-
+    const panes = [
+      {
+        menuItem: 'Unanswered Questions',
+        render: () => (
           <QuestionsList
             type="Unanswered Questions"
+            users={users}
             questions={unAnsweredQuestions}
           />
-        </Grid.Row>
-      </Grid>
+        ),
+      },
+      {
+        menuItem: 'Answered Questions',
+        render: () => (
+          <QuestionsList
+            type="Answered Questions"
+            users={users}
+            questions={answeredQuestions}
+          />
+        ),
+      },
+    ];
+
+    return (
+      <Tab
+        style={{ paddingTop: '30px' }}
+        menu={{
+          fluid: true,
+          vertical: true,
+          color: 'teal',
+          secondary: true,
+          pointing: true,
+        }}
+        panes={panes}
+      />
     );
   }
 }
 
-const mapStateToProps = ({ questions }) => ({
-  answeredQuestions: getAnsweredQuestions(questions),
-  unAnsweredQuestions: getUnansweredQuestions(questions),
+const mapStateToProps = ({ questions, users }) => ({
+  users: users.users,
+  answeredQuestions: getAnsweredQuestions(questions, users.loggedInUser.id),
+  unAnsweredQuestions: getUnansweredQuestions(questions, users.loggedInUser.id),
 });
 
 export default connect(

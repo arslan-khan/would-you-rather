@@ -1,13 +1,17 @@
-const getUnansweredQuestions = questions =>
-  questions.filter(
+const getAnsweredQuestions = (questions, userId) =>
+  questions &&
+  Object.values(questions).filter(
     question =>
-      !question.optionOne.votes.length && !question.optionTwo.votes.length,
+      question.optionOne.votes.includes(userId) ||
+      question.optionTwo.votes.includes(userId),
   );
 
-const getAnsweredQuestions = questions =>
-  questions.filter(
+const getUnansweredQuestions = (questions, userId) =>
+  questions &&
+  Object.values(questions).filter(
     question =>
-      question.optionOne.votes.length || question.optionTwo.votes.length,
+      !question.optionOne.votes.includes(userId) &&
+      !question.optionTwo.votes.includes(userId),
   );
 
 export { getAnsweredQuestions, getUnansweredQuestions };

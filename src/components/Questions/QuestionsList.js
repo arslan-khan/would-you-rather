@@ -1,49 +1,38 @@
 import React from 'react';
 import { Grid, Header, Segment, List, Button, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-import { NEW_QUESTION_PAGE_URL } from '../../constants/pageUrls';
-
-const QuestionsList = ({ type, questions }) => (
+const QuestionsList = ({ type, users, questions }) => (
   <Grid.Column width={8}>
     <Header as="h3" attached="top" textAlign="center" color="teal" inverted>
       {type}
     </Header>
     <Segment attached stacked padded>
-      {!questions.length ? (
-        <Link to={NEW_QUESTION_PAGE_URL}>
-          <Button basic color="teal" fluid size="small">
-            Create A New Poll
-          </Button>
-        </Link>
-      ) : (
-        <List divided verticalAlign="middle" size="big" relaxed="very" animated>
-          <List.Item>
+      <List divided verticalAlign="middle" size="big" relaxed="very" animated>
+        {questions.map(question => (
+          <List.Item key={question.id}>
             <List.Content floated="right">
               <Button basic color="teal" fluid size="small">
                 View Poll
               </Button>
             </List.Content>
-            <Image
-              avatar
-              src="https://react.semantic-ui.com/images/avatar/small/rachel.png"
-            />
+            <Image avatar src={users[question.author].avatarURL} />
             <List.Content>
-              <List.Header>Would You Rather</List.Header>
+              <List.Header>{users[question.author].name} Asks:</List.Header>
               <span style={{ color: 'grey', fontSize: '14px' }}>
-                ...itchy for the rest...
+                Would You Rather: {question.optionOne.text}
               </span>
             </List.Content>
           </List.Item>
-        </List>
-      )}
+        ))}
+      </List>
     </Segment>
   </Grid.Column>
 );
 
 QuestionsList.propTypes = {
   type: PropTypes.string.isRequired,
+  users: PropTypes.shape({}).isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
