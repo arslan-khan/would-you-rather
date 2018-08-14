@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
 import { LOGOUT_SUCCESS } from '../constants/actionTypes';
+import questions from './questionsReducer';
 import session from './sessionReducer';
 import users from './usersReducer';
 
 const appReducer = combineReducers({
+  questions,
   session,
   users,
 });

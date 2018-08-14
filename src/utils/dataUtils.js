@@ -208,4 +208,4 @@ function saveQuestionAnswer({ authedUser, qid, answer }) {
   });
 }
 
-export {getUsers, getQuestions, saveQuestion, saveQuestionAnswer,}
+export { getUsers, getQuestions, saveQuestion, saveQuestionAnswer };

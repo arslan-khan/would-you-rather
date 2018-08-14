@@ -6,6 +6,7 @@ const initialState = {
     users: [],
     loggedInUser: null,
   },
+  questions: [],
 };
 
 export { initialState };
