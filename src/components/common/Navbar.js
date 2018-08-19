@@ -5,9 +5,9 @@ import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
+  ADD_QUESTION_PAGE_URL,
   DASHBOARD_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
-  NEW_QUESTION_PAGE_URL,
 } from '../../constants/pageUrls';
 import { logoutRequest } from '../../actions/sessionActions';
 
@@ -17,7 +17,7 @@ const Navbar = ({ loggedInUser, logoutRequest }) => (
     <Menu.Item
       name="new question"
       as={NavLink}
-      to={NEW_QUESTION_PAGE_URL}
+      to={ADD_QUESTION_PAGE_URL}
       exact
     />
     <Menu.Item

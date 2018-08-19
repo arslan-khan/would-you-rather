@@ -13,7 +13,7 @@ import {
   DASHBOARD_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
   LOGIN_PAGE_URL,
-  NEW_QUESTION_PAGE_URL,
+  ADD_QUESTION_PAGE_URL,
 } from '../constants/pageUrls';
 
 const App = ({ isAuthed }) => (
@@ -41,7 +41,7 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={NEW_QUESTION_PAGE_URL}
+      path={ADD_QUESTION_PAGE_URL}
       component={NewQuestionPage}
       isAuthed={isAuthed}
     />
