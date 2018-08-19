@@ -1,50 +1,84 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Grid, Header, Segment } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+
+import NewQuestionForm from '../components/forms/NewQuestionForm';
 import {
-  Grid,
-  Header,
-  Segment,
-  Form,
-  Input,
-  Button,
-  Icon,
-  Divider,
-} from 'semantic-ui-react';
+  addNewQuestionRequest,
+  setQuestionsToDefaultStateRequest,
+} from '../actions/questionsActions';
+import { DASHBOARD_PAGE_URL } from '../constants/pageUrls';
 
-const NewQuestionPage = () => (
-  <Grid columns={2} centered style={{ paddingTop: '40px' }}>
-    <Grid.Column>
-      <Header as="h3" attached="top" color="teal" textAlign="center" inverted>
-        New Question
-      </Header>
-      <Segment attached stacked padded>
-        <Form>
-          <Form.Field
-            id="name"
-            name="name"
-            control={Input}
-            label="Would You Rather"
-            placeholder="First option here..."
-          />
+class NewQuestionPage extends Component {
+  static propTypes = {
+    addNewQuestionRequest: PropTypes.func.isRequired,
+    setQuestionsToDefaultStateRequest: PropTypes.func.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
+    hasNewQuestionBeenSubmitted: PropTypes.bool.isRequired,
+  };
 
-          <Divider horizontal>Or</Divider>
+  state = { optionOneText: '', optionTwoText: '', author: '' };
 
-          <Form.Field
-            id="name"
-            name="name"
-            control={Input}
-            placeholder="Second option here..."
-          />
+  componentWillUnmount() {
+    const { setQuestionsToDefaultStateRequest } = this.props;
+    setQuestionsToDefaultStateRequest();
+  }
 
-          <Button type="submit" color="teal" fluid animated="fade">
-            <Button.Content visible>Submit</Button.Content>
-            <Button.Content hidden>
-              <Icon name="sign in" />
-            </Button.Content>
-          </Button>
-        </Form>
-      </Segment>
-    </Grid.Column>
-  </Grid>
-);
+  onChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
-export default NewQuestionPage;
+  onSubmitHandler = () => {
+    const { addNewQuestionRequest } = this.props;
+    addNewQuestionRequest(this.state);
+  };
+
+  static getDerivedStateFromProps(props) {
+    return { author: props.author };
+  }
+
+  render() {
+    const { optionOneText, optionTwoText } = this.state;
+    const { isSubmitting, hasNewQuestionBeenSubmitted } = this.props;
+
+    if (hasNewQuestionBeenSubmitted)
+      return <Redirect to={DASHBOARD_PAGE_URL} />;
+
+    return (
+      <Grid columns={2} centered style={{ paddingTop: '30px' }}>
+        <Grid.Column>
+          <Header
+            as="h3"
+            attached="top"
+            color="teal"
+            textAlign="center"
+            inverted
+          >
+            New Question
+          </Header>
+
+          <Segment attached stacked padded>
+            <NewQuestionForm
+              isSubmitting={isSubmitting}
+              optionOneText={optionOneText}
+              optionTwoText={optionTwoText}
+              onChangeHandler={this.onChangeHandler}
+              onSubmitHandler={this.onSubmitHandler}
+            />
+          </Segment>
+        </Grid.Column>
+      </Grid>
+    );
+  }
+}
+
+const mapStateToProps = ({ users, questions }) => ({
+  author: users.loggedInUser.id,
+  isSubmitting: questions.isSubmitting,
+  hasNewQuestionBeenSubmitted: questions.hasNewQuestionBeenSubmitted,
+});
+
+export default connect(
+  mapStateToProps,
+  { addNewQuestionRequest, setQuestionsToDefaultStateRequest },
+)(NewQuestionPage);
