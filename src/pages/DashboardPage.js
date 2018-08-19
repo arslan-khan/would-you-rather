@@ -4,7 +4,10 @@ import { Dimmer, Loader, Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import QuestionsList from '../components/Questions/QuestionsList';
-import { fetchQuestionsRequest } from '../actions/questionsActions';
+import {
+  clearQuestionsRequest,
+  fetchQuestionsRequest,
+} from '../actions/questionsActions';
 import {
   getAnsweredQuestions,
   getUnansweredQuestions,
@@ -12,6 +15,7 @@ import {
 
 class DashboardPage extends Component {
   static propTypes = {
+    clearQuestionsRequest: PropTypes.func.isRequired,
     fetchQuestionsRequest: PropTypes.func.isRequired,
     users: PropTypes.shape({}).isRequired,
     answeredQuestions: PropTypes.arrayOf(PropTypes.object),
@@ -26,6 +30,11 @@ class DashboardPage extends Component {
   componentDidMount() {
     const { fetchQuestionsRequest } = this.props;
     fetchQuestionsRequest();
+  }
+
+  componentWillUnmount() {
+    const { clearQuestionsRequest } = this.props;
+    clearQuestionsRequest();
   }
 
   render() {
@@ -80,11 +89,17 @@ class DashboardPage extends Component {
 
 const mapStateToProps = ({ questions, users }) => ({
   users: users.users,
-  answeredQuestions: getAnsweredQuestions(questions, users.loggedInUser.id),
-  unAnsweredQuestions: getUnansweredQuestions(questions, users.loggedInUser.id),
+  answeredQuestions: getAnsweredQuestions(
+    questions.questions,
+    users.loggedInUser.id,
+  ),
+  unAnsweredQuestions: getUnansweredQuestions(
+    questions.questions,
+    users.loggedInUser.id,
+  ),
 });
 
 export default connect(
   mapStateToProps,
-  { fetchQuestionsRequest },
+  { clearQuestionsRequest, fetchQuestionsRequest },
 )(DashboardPage);

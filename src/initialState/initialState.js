@@ -6,7 +6,11 @@ const initialState = {
     users: null,
     loggedInUser: null,
   },
-  questions: null,
+  questions: {
+    questions: null,
+    isSubmitting: false,
+    hasNewQuestionBeenSubmitted: false,
+  },
 };
 
 export { initialState };
