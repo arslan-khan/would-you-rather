@@ -1,18 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import {
-  Grid,
-  Header,
-  Segment,
-  Icon,
-  Message,
-  Divider,
-  Popup,
-  Image,
-} from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Grid, Header, Segment, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import LoginForm from '../components/forms/LoginForm';
+import AutoLoginWidget from '../components/Login/AutoLoginWidget';
 import { authLoginRequest } from '../actions/sessionActions';
 import { fetchUsersRequest } from '../actions/usersActions';
 import { stripWhiteSpaces } from '../utils/formUtils';
@@ -72,34 +64,7 @@ class LoginPage extends Component {
 
           <Segment stacked padded="very" style={{ marginTop: '40px' }}>
             {isWrongName && (
-              <Fragment>
-                <Message
-                  warning
-                  size="tiny"
-                  color="teal"
-                  header="Can't Login?"
-                  content="Please hover over an image below to get the user's info!"
-                />
-
-                {Object.values(users).map(user => (
-                  <Popup
-                    inverted
-                    size="tiny"
-                    key={user.id}
-                    trigger={
-                      <Image
-                        src={user.avatarURL}
-                        avatar
-                        size="tiny"
-                        onClick={() => this.logUserIn(user)}
-                      />
-                    }
-                    header="JUST CLICK ME IF YOU ARE LAZY!"
-                    content={`User Name: ${user.name}`}
-                  />
-                ))}
-                <Divider />
-              </Fragment>
+              <AutoLoginWidget users={users} logUserIn={this.logUserIn} />
             )}
 
             <LoginForm
