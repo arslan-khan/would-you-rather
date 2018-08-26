@@ -9,7 +9,7 @@ import {
   addNewQuestionRequest,
   setQuestionsToDefaultStateRequest,
 } from '../actions/questionsActions';
-import { DASHBOARD_PAGE_URL } from '../constants/pageUrls';
+import { QUESTIONS_PAGE_URL } from '../constants/pageUrls';
 
 class NewQuestionPage extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ class NewQuestionPage extends Component {
     const { isSubmitting, hasNewQuestionBeenSubmitted } = this.props;
 
     if (hasNewQuestionBeenSubmitted)
-      return <Redirect to={DASHBOARD_PAGE_URL} />;
+      return <Redirect to={QUESTIONS_PAGE_URL} />;
 
     return (
       <Grid columns={2} centered style={{ paddingTop: '30px' }}>

@@ -12,7 +12,7 @@ const QuestionsList = ({ type, users, questions }) => (
     <Segment attached stacked padded>
       <Item.Group divided relaxed>
         {!questions.length ? (
-          <Header as="h1" textAlign="center">
+          <Header as="h3" color="grey">
             <Icon name="thumbs up" />
             <Header.Content>All Caught Up</Header.Content>
           </Header>

@@ -12,10 +12,9 @@ import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
 import {
   ADD_QUESTION_PAGE_URL,
-  DASHBOARD_PAGE_URL,
+  QUESTIONS_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
   LOGIN_PAGE_URL,
-  POLL_PAGE_URL,
 } from '../constants/pageUrls';
 
 const App = ({ isAuthed }) => (
@@ -29,7 +28,7 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={DASHBOARD_PAGE_URL}
+      path={QUESTIONS_PAGE_URL}
       component={DashboardPage}
       isAuthed={isAuthed}
     />
@@ -50,7 +49,7 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={`${POLL_PAGE_URL}/:question_id`}
+      path={`${QUESTIONS_PAGE_URL}/:question_id`}
       component={PollPage}
       isAuthed={isAuthed}
     />

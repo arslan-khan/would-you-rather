@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
-import { DASHBOARD_PAGE_URL } from '../constants/pageUrls';
+import { QUESTIONS_PAGE_URL } from '../constants/pageUrls';
 
 const PublicRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
   <Route
@@ -13,7 +13,7 @@ const PublicRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: `${DASHBOARD_PAGE_URL}`,
+            pathname: `${QUESTIONS_PAGE_URL}`,
             state: { from: props.location },
           }}
         />
