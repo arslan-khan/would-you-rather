@@ -18,4 +18,7 @@ const getUnansweredQuestions = (questions, userId) =>
     )
     .sort(question => question.timestamp);
 
-export { getAnsweredQuestions, getUnansweredQuestions };
+const getQuestionById = (questions, id) =>
+  questions && Object.values(questions).find(question => question.id === id);
+
+export { getAnsweredQuestions, getUnansweredQuestions, getQuestionById };

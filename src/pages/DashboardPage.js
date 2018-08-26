@@ -4,10 +4,7 @@ import { Dimmer, Loader, Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import QuestionsList from '../components/Questions/QuestionsList';
-import {
-  clearQuestionsRequest,
-  fetchQuestionsRequest,
-} from '../actions/questionsActions';
+import { fetchQuestionsRequest } from '../actions/questionsActions';
 import {
   getAnsweredQuestions,
   getUnansweredQuestions,
@@ -15,7 +12,6 @@ import {
 
 class DashboardPage extends Component {
   static propTypes = {
-    clearQuestionsRequest: PropTypes.func.isRequired,
     fetchQuestionsRequest: PropTypes.func.isRequired,
     users: PropTypes.shape({}).isRequired,
     answeredQuestions: PropTypes.arrayOf(PropTypes.object),
@@ -28,13 +24,15 @@ class DashboardPage extends Component {
   };
 
   componentDidMount() {
-    const { fetchQuestionsRequest } = this.props;
-    fetchQuestionsRequest();
-  }
+    const {
+      answeredQuestions,
+      unAnsweredQuestions,
+      fetchQuestionsRequest,
+    } = this.props;
 
-  componentWillUnmount() {
-    const { clearQuestionsRequest } = this.props;
-    clearQuestionsRequest();
+    if (!answeredQuestions || !unAnsweredQuestions) {
+      fetchQuestionsRequest();
+    }
   }
 
   render() {
@@ -101,5 +99,5 @@ const mapStateToProps = ({ questions, users }) => ({
 
 export default connect(
   mapStateToProps,
-  { clearQuestionsRequest, fetchQuestionsRequest },
+  { fetchQuestionsRequest },
 )(DashboardPage);

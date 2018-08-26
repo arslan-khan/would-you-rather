@@ -1,17 +1,16 @@
-import { getQuestions, saveQuestion } from '../utils/dataUtils';
+import {
+  getQuestions,
+  saveQuestion,
+  saveQuestionAnswer,
+} from '../utils/dataUtils';
 import {
   ACTIVATE_LOADER,
   ADD_NEW_QUESTION_SUCCESS,
-  CLEAR_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_SUCCESS,
+  SAVE_QUESTION_ANSWER_SUCCESS,
   SET_QUESTIONS_TO_DEFAULT_STATE,
 } from '../constants/actionTypes';
 import { fetchUsersRequest } from './usersActions';
-
-const clearQuestionsSuccess = () => ({ type: CLEAR_QUESTIONS_SUCCESS });
-
-const clearQuestionsRequest = () => dispatch =>
-  dispatch(clearQuestionsSuccess());
 
 const fetchQuestionsSuccess = questions => ({
   type: FETCH_QUESTIONS_SUCCESS,
@@ -25,15 +24,16 @@ const fetchQuestionsRequest = () => async dispatch => {
 
 const activateLoader = () => ({ type: ACTIVATE_LOADER });
 
-const addNewQuestionSuccess = () => ({
+const addNewQuestionSuccess = question => ({
   type: ADD_NEW_QUESTION_SUCCESS,
+  question,
 });
 
 const addNewQuestionRequest = question => async dispatch => {
   dispatch(activateLoader());
-  await saveQuestion(question);
+  const savedQuestion = await saveQuestion(question);
   dispatch(fetchUsersRequest());
-  dispatch(addNewQuestionSuccess());
+  dispatch(addNewQuestionSuccess(savedQuestion));
 };
 
 const setQuestionsToDefaultStateSuccess = () => ({
@@ -43,9 +43,24 @@ const setQuestionsToDefaultStateSuccess = () => ({
 const setQuestionsToDefaultStateRequest = () => dispatch =>
   dispatch(setQuestionsToDefaultStateSuccess());
 
+const saveQuestionAnswerSuccess = () => ({
+  type: SAVE_QUESTION_ANSWER_SUCCESS,
+});
+
+const saveQuestionAnswerRequest = (
+  authedUser,
+  qid,
+  answer,
+) => async dispatch => {
+  dispatch(activateLoader());
+  await saveQuestionAnswer({ authedUser, qid, answer });
+  await dispatch(fetchQuestionsRequest());
+  dispatch(saveQuestionAnswerSuccess());
+};
+
 export {
   addNewQuestionRequest,
-  clearQuestionsRequest,
   fetchQuestionsRequest,
   setQuestionsToDefaultStateRequest,
+  saveQuestionAnswerRequest,
 };
