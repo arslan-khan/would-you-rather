@@ -14,7 +14,7 @@ const LoginForm = ({ onSubmitHandler, users, name, onChangeHandler }) => (
       onChange={onChangeHandler}
     />
 
-    <Button type="submit" color="teal" fluid animated="fade">
+    <Button type="submit" color="teal" fluid animated="fade" disabled={!name}>
       <Button.Content visible>Login</Button.Content>
       <Button.Content hidden>
         <Icon name="sign in" />
