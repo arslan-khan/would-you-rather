@@ -2,9 +2,9 @@ import React from 'react';
 import { Item, List, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import capitalize from 'lodash/capitalize';
 
 import { QUESTIONS } from '../../constants/pageUrls';
-import { styles } from '../../utils/stylesUtils';
 
 const Question = ({ users, question }) => (
   <Item>
@@ -15,12 +15,8 @@ const Question = ({ users, question }) => (
       <Item.Meta>Would You Rather...</Item.Meta>
       <Item.Description>
         <List bulleted>
-          <List.Item style={styles.capitalize}>
-            {question.optionOne.text}
-          </List.Item>
-          <List.Item style={styles.capitalize}>
-            {question.optionTwo.text}
-          </List.Item>
+          <List.Item>{capitalize(question.optionOne.text)}</List.Item>
+          <List.Item>{capitalize(question.optionTwo.text)}</List.Item>
         </List>
       </Item.Description>
       <Item.Extra>

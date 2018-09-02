@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form, Radio, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-
-import { styles } from '../../utils/stylesUtils';
+import capitalize from 'lodash/capitalize';
 
 const AnswerQuestionForm = ({
   value,
@@ -15,8 +14,7 @@ const AnswerQuestionForm = ({
     <Form.Field>Would You Rather...</Form.Field>
     <Form.Field>
       <Radio
-        style={styles.capitalize}
-        label={question.optionOne.text}
+        label={capitalize(question.optionOne.text)}
         name="radioGroup"
         value={question.optionOne.text}
         checked={value === question.optionOne.text}
@@ -27,8 +25,7 @@ const AnswerQuestionForm = ({
 
     <Form.Field>
       <Radio
-        style={styles.capitalize}
-        label={question.optionTwo.text}
+        label={capitalize(question.optionTwo.text)}
         name="radioGroup"
         value={question.optionTwo.text}
         checked={value === question.optionTwo.text}

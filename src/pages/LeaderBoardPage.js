@@ -1,21 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Grid,
-  Segment,
-  Image,
-  Card,
-  Header,
-  Label,
-  Progress,
-} from 'semantic-ui-react';
+import { Grid, Segment, Image, Card, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+
+import QuestionsProgress from '../components/LeaderBoard/QuestionsProgress';
+import BoardStats from '../components/LeaderBoard/BoardStats';
 
 const LeaderBoardPage = ({ users }) => (
   <Grid columns={2} centered style={{ paddingTop: '30px' }}>
     <Grid.Column>
       <Header as="h3" attached="top" color="teal" textAlign="center" inverted>
-        Leader Board:
+        Leader Board
       </Header>
 
       <Segment stacked padded attached>
@@ -41,24 +36,15 @@ const LeaderBoardPage = ({ users }) => (
                     width: '60%',
                   }}
                 >
-                  <Progress
+                  <QuestionsProgress
+                    questions={createdQuestions}
+                    totalQuestions={totalQuestions}
                     color="blue"
-                    size="medium"
-                    active
-                    value={createdQuestions}
-                    total={totalQuestions}
-                    progress="ratio"
                   />
-                </div>
-
-                <div style={{ width: '60%' }}>
-                  <Progress
+                  <QuestionsProgress
+                    questions={answeredQuestions}
+                    totalQuestions={totalQuestions}
                     color="olive"
-                    size="medium"
-                    active
-                    value={answeredQuestions}
-                    total={totalQuestions}
-                    progress="ratio"
                   />
                 </div>
               </Card.Content>
@@ -68,38 +54,21 @@ const LeaderBoardPage = ({ users }) => (
                   columns="equal"
                   style={{ paddingTop: '15px', textAlign: 'center' }}
                 >
-                  <Grid.Column>
-                    <Header as="h5" attached="top" inverted color="blue">
-                      Questions
-                    </Header>
-                    <Segment attached raised>
-                      <Label circular color="blue" size="large" pointing>
-                        {createdQuestions}
-                      </Label>
-                    </Segment>
-                  </Grid.Column>
-
-                  <Grid.Column>
-                    <Header as="h5" attached="top" inverted color="olive">
-                      Answers
-                    </Header>
-                    <Segment attached raised>
-                      <Label circular color="olive" size="large" pointing>
-                        {answeredQuestions}
-                      </Label>
-                    </Segment>
-                  </Grid.Column>
-
-                  <Grid.Column>
-                    <Header as="h5" attached="top" inverted color="red">
-                      Score
-                    </Header>
-                    <Segment attached raised>
-                      <Label circular color="red" size="large" pointing>
-                        {totalQuestions}
-                      </Label>
-                    </Segment>
-                  </Grid.Column>
+                  <BoardStats
+                    header="Questions"
+                    color="blue"
+                    displayValue={createdQuestions}
+                  />
+                  <BoardStats
+                    header="Answers"
+                    color="olive"
+                    displayValue={answeredQuestions}
+                  />
+                  <BoardStats
+                    header="Score"
+                    color="red"
+                    displayValue={totalQuestions}
+                  />
                 </Grid>
               </Card.Content>
             </Card>
