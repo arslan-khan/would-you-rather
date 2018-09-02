@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { QUESTIONS } from '../../constants/pageUrls';
+import { styles } from '../../utils/stylesUtils';
 
 const Question = ({ users, question }) => (
   <Item>
@@ -14,8 +15,12 @@ const Question = ({ users, question }) => (
       <Item.Meta>Would You Rather...</Item.Meta>
       <Item.Description>
         <List bulleted>
-          <List.Item>{question.optionOne.text}</List.Item>
-          <List.Item>{question.optionTwo.text}</List.Item>
+          <List.Item style={styles.capitalize}>
+            {question.optionOne.text}
+          </List.Item>
+          <List.Item style={styles.capitalize}>
+            {question.optionTwo.text}
+          </List.Item>
         </List>
       </Item.Description>
       <Item.Extra>

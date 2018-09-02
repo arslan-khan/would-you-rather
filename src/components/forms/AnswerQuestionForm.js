@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Radio, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+import { styles } from '../../utils/stylesUtils';
+
 const AnswerQuestionForm = ({
   value,
   question,
@@ -13,6 +15,7 @@ const AnswerQuestionForm = ({
     <Form.Field>Would You Rather...</Form.Field>
     <Form.Field>
       <Radio
+        style={styles.capitalize}
         label={question.optionOne.text}
         name="radioGroup"
         value={question.optionOne.text}
@@ -24,6 +27,7 @@ const AnswerQuestionForm = ({
 
     <Form.Field>
       <Radio
+        style={styles.capitalize}
         label={question.optionTwo.text}
         name="radioGroup"
         value={question.optionTwo.text}

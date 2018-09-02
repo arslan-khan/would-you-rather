@@ -1,6 +1,7 @@
 import React from 'react';
 import { Progress, Message, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import capitalize from 'lodash/capitalize';
 
 const getStyles = vote => {
   if (!vote) return { paddingBottom: '12px' };
@@ -15,7 +16,7 @@ const AnswerAsProgressBar = ({ option, total, loggedInUser }) => {
         color={yourVote ? 'teal' : 'grey'}
         style={getStyles(yourVote)}
       >
-        {option.text}
+        {capitalize(option.text)}
       </Message.Header>
       <Progress
         color="teal"
