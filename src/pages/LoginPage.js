@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Header, Segment, Icon } from 'semantic-ui-react';
+import { Grid, Header, Segment, Icon, Transition } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,6 +21,7 @@ class LoginPage extends Component {
   state = {
     name: '',
     isWrongName: false,
+    visible: false,
   };
 
   componentDidMount = () => {
@@ -45,37 +46,45 @@ class LoginPage extends Component {
     });
   };
 
+  static getDerivedStateFromProps(props) {
+    if (props.users) {
+      return { visible: true };
+    }
+    return {};
+  }
+
   logUserIn = user => {
     const { authLoginRequest } = this.props;
     authLoginRequest(user);
   };
 
   render() {
-    const { name, isWrongName } = this.state;
+    const { name, isWrongName, visible } = this.state;
     const { users } = this.props;
 
     return (
-      <Grid columns={3} centered style={{ paddingTop: '100px' }}>
-        <Grid.Column>
-          <Header as="h1" textAlign="center" icon>
-            <Icon name="exchange" circular color="teal" inverted />
-            <Header.Content>Would You Rather</Header.Content>
-          </Header>
+      <Transition visible={visible} animation="fade up" duration={1500}>
+        <Grid columns={3} centered style={{ paddingTop: '100px' }}>
+          <Grid.Column>
+            <Header as="h1" textAlign="center" icon>
+              <Icon name="exchange" circular color="teal" inverted />
+              <Header.Content>Would You Rather</Header.Content>
+            </Header>
 
-          <Segment stacked padded="very" style={{ marginTop: '40px' }}>
-            {isWrongName && (
-              <AutoLoginWidget users={users} logUserIn={this.logUserIn} />
-            )}
+            <Segment stacked padded="very" style={{ marginTop: '40px' }}>
+              {isWrongName && (
+                <AutoLoginWidget users={users} logUserIn={this.logUserIn} />
+              )}
 
-            <LoginForm
-              users={users}
-              name={name}
-              onChangeHandler={this.onChangeHandler}
-              onSubmitHandler={this.onSubmitHandler}
-            />
-          </Segment>
-        </Grid.Column>
-      </Grid>
+              <LoginForm
+                name={name}
+                onChangeHandler={this.onChangeHandler}
+                onSubmitHandler={this.onSubmitHandler}
+              />
+            </Segment>
+          </Grid.Column>
+        </Grid>
+      </Transition>
     );
   }
 }

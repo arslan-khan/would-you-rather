@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, Button, Input, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ users, name, onChangeHandler, onSubmitHandler }) => (
-  <Form onSubmit={onSubmitHandler} loading={!users}>
+const LoginForm = ({ name, onChangeHandler, onSubmitHandler }) => (
+  <Form onSubmit={onSubmitHandler}>
     <Form.Field
       id="name"
       name="name"
@@ -25,13 +25,8 @@ const LoginForm = ({ users, name, onChangeHandler, onSubmitHandler }) => (
 
 LoginForm.propTypes = {
   onSubmitHandler: PropTypes.func.isRequired,
-  users: PropTypes.shape({}),
   name: PropTypes.string.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
-};
-
-LoginForm.defaultProps = {
-  users: null,
 };
 
 export default LoginForm;
