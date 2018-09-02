@@ -2,8 +2,9 @@ import React from 'react';
 import { Item, List, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import capitalize from 'lodash/capitalize';
 
-import { POLL_PAGE_URL } from '../../constants/pageUrls';
+import { QUESTIONS } from '../../constants/pageUrls';
 
 const Question = ({ users, question }) => (
   <Item>
@@ -14,8 +15,8 @@ const Question = ({ users, question }) => (
       <Item.Meta>Would You Rather...</Item.Meta>
       <Item.Description>
         <List bulleted>
-          <List.Item>{question.optionOne.text}</List.Item>
-          <List.Item>{question.optionTwo.text}</List.Item>
+          <List.Item>{capitalize(question.optionOne.text)}</List.Item>
+          <List.Item>{capitalize(question.optionTwo.text)}</List.Item>
         </List>
       </Item.Description>
       <Item.Extra>
@@ -24,7 +25,7 @@ const Question = ({ users, question }) => (
           floated="right"
           color="teal"
           as={Link}
-          to={`${POLL_PAGE_URL}/${question.id}`}
+          to={`${QUESTIONS}/${question.id}`}
         >
           View Poll
         </Button>

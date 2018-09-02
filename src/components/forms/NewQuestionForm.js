@@ -31,7 +31,13 @@ const NewQuestionForm = ({
       onChange={onChangeHandler}
     />
 
-    <Button type="submit" color="teal" fluid animated="fade">
+    <Button
+      type="submit"
+      color="teal"
+      fluid
+      animated="fade"
+      disabled={!optionOneText || !optionTwoText}
+    >
       <Button.Content visible>Submit</Button.Content>
       <Button.Content hidden>
         <Icon name="sign in" />

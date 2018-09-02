@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
-import {
-  Grid,
-  Card,
-  Image,
-  Radio,
-  Header,
-  Segment,
-  Form,
-  Button,
-} from 'semantic-ui-react';
+import { Grid, Card, Image, Header, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 
-import { getQuestionById } from '../selectors/questionsSelectors';
-import { getUserInfo } from '../selectors/usersSelectors';
+import AnswerQuestionForm from '../components/forms/AnswerQuestionForm';
+import Answer from '../components/Questions/Answer';
 import {
-  saveQuestionAnswerRequest,
-  setQuestionsToDefaultStateRequest,
-} from '../actions/questionsActions';
-import { DASHBOARD_PAGE_URL } from '../constants/pageUrls';
+  getQuestionById,
+  getAnsweredQuestions,
+} from '../selectors/questionsSelectors';
+import { getUserInfo } from '../selectors/usersSelectors';
+import { saveQuestionAnswerRequest } from '../actions/questionsActions';
 
 class PollPage extends Component {
   static propTypes = {
@@ -36,16 +27,9 @@ class PollPage extends Component {
     loggedInUser: PropTypes.shape({}).isRequired,
     saveQuestionAnswerRequest: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
-    hasNewQuestionBeenSubmitted: PropTypes.bool.isRequired,
-    setQuestionsToDefaultStateRequest: PropTypes.func.isRequired,
   };
 
-  state = {};
-
-  componentWillUnmount() {
-    const { setQuestionsToDefaultStateRequest } = this.props;
-    setQuestionsToDefaultStateRequest();
-  }
+  state = { activateAnswerMode: false };
 
   onSubmitHandler = () => {
     const { question, loggedInUser, saveQuestionAnswerRequest } = this.props;
@@ -54,28 +38,30 @@ class PollPage extends Component {
 
     if (question.optionOne.text === value) {
       answer = 'optionOne';
-    }
-
-    if (question.optionTwo.text === value) {
+    } else {
       answer = 'optionTwo';
     }
 
     saveQuestionAnswerRequest(loggedInUser.id, question.id, answer);
   };
 
+  static getDerivedStateFromProps(props) {
+    const { answeredQuestions, question } = props;
+    const answeredQuestion = answeredQuestions.find(
+      quest => quest.id === question.id,
+    );
+
+    if (answeredQuestion) {
+      return { activateAnswerMode: true };
+    }
+    return {};
+  }
+
   handleChange = (e, { value }) => this.setState({ value });
 
   render() {
-    const { value } = this.state;
-    const {
-      question,
-      userInfo,
-      isSubmitting,
-      hasNewQuestionBeenSubmitted,
-    } = this.props;
-
-    if (hasNewQuestionBeenSubmitted)
-      return <Redirect to={DASHBOARD_PAGE_URL} />;
+    const { activateAnswerMode, value } = this.state;
+    const { question, loggedInUser, userInfo, isSubmitting } = this.props;
 
     return (
       <Grid columns={3} centered style={{ paddingTop: '30px' }}>
@@ -87,7 +73,7 @@ class PollPage extends Component {
             textAlign="center"
             inverted
           >
-            Poll
+            Poll - {activateAnswerMode ? 'Answer' : 'Question'}
           </Header>
 
           <Segment attached stacked padded>
@@ -98,34 +84,17 @@ class PollPage extends Component {
               </Card.Content>
 
               <Card.Content extra>
-                <Form onSubmit={this.onSubmitHandler} loading={isSubmitting}>
-                  <Form.Field>Would You Rather...</Form.Field>
-                  <Form.Field>
-                    <Radio
-                      label={question.optionOne.text}
-                      name="radioGroup"
-                      value={question.optionOne.text}
-                      checked={value === question.optionOne.text}
-                      onChange={this.handleChange}
-                      toggle
-                    />
-                  </Form.Field>
-
-                  <Form.Field>
-                    <Radio
-                      label={question.optionTwo.text}
-                      name="radioGroup"
-                      value={question.optionTwo.text}
-                      checked={value === question.optionTwo.text}
-                      onChange={this.handleChange}
-                      toggle
-                    />
-                  </Form.Field>
-
-                  <Button type="submit" fluid color="teal" disabled={!value}>
-                    Submit
-                  </Button>
-                </Form>
+                {activateAnswerMode ? (
+                  <Answer question={question} loggedInUser={loggedInUser} />
+                ) : (
+                  <AnswerQuestionForm
+                    value={value}
+                    question={question}
+                    handleChange={this.handleChange}
+                    onSubmitHandler={this.onSubmitHandler}
+                    isSubmitting={isSubmitting}
+                  />
+                )}
               </Card.Content>
             </Card>
           </Segment>
@@ -143,11 +112,14 @@ const mapStateToProps = ({ questions, users }, { match }) => ({
     match.params.question_id,
   ),
   loggedInUser: users.loggedInUser,
+  answeredQuestions: getAnsweredQuestions(
+    questions.questions,
+    users.loggedInUser.id,
+  ),
   isSubmitting: questions.isSubmitting,
-  hasNewQuestionBeenSubmitted: questions.hasNewQuestionBeenSubmitted,
 });
 
 export default connect(
   mapStateToProps,
-  { saveQuestionAnswerRequest, setQuestionsToDefaultStateRequest },
+  { saveQuestionAnswerRequest },
 )(PollPage);

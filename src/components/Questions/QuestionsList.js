@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Header, Segment, Item } from 'semantic-ui-react';
+import { Grid, Header, Segment, Item, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import Question from './Question';
@@ -11,9 +11,16 @@ const QuestionsList = ({ type, users, questions }) => (
     </Header>
     <Segment attached stacked padded>
       <Item.Group divided relaxed>
-        {questions.map(question => (
-          <Question key={question.id} users={users} question={question} />
-        ))}
+        {!questions.length ? (
+          <Header as="h3" color="grey">
+            <Icon name="thumbs up" />
+            <Header.Content>All Caught Up</Header.Content>
+          </Header>
+        ) : (
+          questions.map(question => (
+            <Question key={question.id} users={users} question={question} />
+          ))
+        )}
       </Item.Group>
     </Segment>
   </Grid.Column>

@@ -7,7 +7,6 @@ import {
   ACTIVATE_LOADER,
   ADD_NEW_QUESTION_SUCCESS,
   FETCH_QUESTIONS_SUCCESS,
-  SAVE_QUESTION_ANSWER_SUCCESS,
   SET_QUESTIONS_TO_DEFAULT_STATE,
 } from '../constants/actionTypes';
 import { fetchUsersRequest } from './usersActions';
@@ -43,10 +42,6 @@ const setQuestionsToDefaultStateSuccess = () => ({
 const setQuestionsToDefaultStateRequest = () => dispatch =>
   dispatch(setQuestionsToDefaultStateSuccess());
 
-const saveQuestionAnswerSuccess = () => ({
-  type: SAVE_QUESTION_ANSWER_SUCCESS,
-});
-
 const saveQuestionAnswerRequest = (
   authedUser,
   qid,
@@ -54,8 +49,9 @@ const saveQuestionAnswerRequest = (
 ) => async dispatch => {
   dispatch(activateLoader());
   await saveQuestionAnswer({ authedUser, qid, answer });
-  await dispatch(fetchQuestionsRequest());
-  dispatch(saveQuestionAnswerSuccess());
+  dispatch(fetchQuestionsRequest());
+  await dispatch(fetchUsersRequest());
+  dispatch(setQuestionsToDefaultStateRequest());
 };
 
 export {

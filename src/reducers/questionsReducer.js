@@ -3,7 +3,6 @@ import {
   ACTIVATE_LOADER,
   ADD_NEW_QUESTION_SUCCESS,
   FETCH_QUESTIONS_SUCCESS,
-  SAVE_QUESTION_ANSWER_SUCCESS,
   SET_QUESTIONS_TO_DEFAULT_STATE,
 } from '../constants/actionTypes';
 
@@ -29,12 +28,6 @@ const questionsReducer = (state = initialState.questions, action) => {
       return {
         ...state,
         questions: action.questions,
-      };
-
-    case SAVE_QUESTION_ANSWER_SUCCESS:
-      return {
-        ...state,
-        hasNewQuestionBeenSubmitted: true,
       };
 
     case SET_QUESTIONS_TO_DEFAULT_STATE:

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Switch, withRouter } from 'react-router-dom';
+import { Switch, withRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import DashboardPage from '../pages/DashboardPage';
+import QuestionsPage from '../pages/QuestionsPage';
 import LeaderBoardPage from '../pages/LeaderBoardPage';
 import LoginPage from '../pages/LoginPage';
 import PollPage from '../pages/PollPage';
 import NewQuestionPage from '../pages/NewQuestionPage';
+import PageNotFound from '../pages/PageNotFound';
 import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
 import {
@@ -15,7 +16,7 @@ import {
   DASHBOARD_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
   LOGIN_PAGE_URL,
-  POLL_PAGE_URL,
+  QUESTIONS,
 } from '../constants/pageUrls';
 
 const App = ({ isAuthed }) => (
@@ -30,7 +31,7 @@ const App = ({ isAuthed }) => (
     <PrivateRouteHOC
       exact
       path={DASHBOARD_PAGE_URL}
-      component={DashboardPage}
+      component={QuestionsPage}
       isAuthed={isAuthed}
     />
 
@@ -50,10 +51,12 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={`${POLL_PAGE_URL}/:question_id`}
+      path={`${QUESTIONS}/:question_id`}
       component={PollPage}
       isAuthed={isAuthed}
     />
+
+    <Route component={PageNotFound} />
   </Switch>
 );
 
