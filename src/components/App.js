@@ -12,6 +12,7 @@ import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
 import {
   ADD_QUESTION_PAGE_URL,
+  DASHBOARD_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
   LOGIN_PAGE_URL,
   QUESTIONS,
@@ -28,7 +29,7 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={QUESTIONS}
+      path={DASHBOARD_PAGE_URL}
       component={QuestionsPage}
       isAuthed={isAuthed}
     />

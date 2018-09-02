@@ -1,6 +1,6 @@
 const ADD_QUESTION_PAGE_URL = '/add';
 const DASHBOARD_PAGE_URL = '/';
-const LEADER_BOARD_PAGE_URL = '/leader-board';
+const LEADER_BOARD_PAGE_URL = '/leaderboard';
 const LOGIN_PAGE_URL = '/login';
 const QUESTIONS = '/questions';
 
