@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AnswerQuestionForm from '../components/forms/AnswerQuestionForm';
-import { getQuestionById } from '../selectors/questionsSelectors';
+import {
+  getQuestionById,
+  getAnsweredQuestions,
+} from '../selectors/questionsSelectors';
 import { getUserInfo } from '../selectors/usersSelectors';
 import { saveQuestionAnswerRequest } from '../actions/questionsActions';
 
@@ -24,7 +27,7 @@ class PollPage extends Component {
     saveQuestionAnswerRequest: PropTypes.func.isRequired,
   };
 
-  state = {};
+  state = { activateAnswerMode: false };
 
   onSubmitHandler = () => {
     const { question, loggedInUser, saveQuestionAnswerRequest } = this.props;
@@ -33,23 +36,37 @@ class PollPage extends Component {
 
     if (question.optionOne.text === value) {
       answer = 'optionOne';
-    }
-
-    if (question.optionTwo.text === value) {
+    } else {
       answer = 'optionTwo';
     }
 
     saveQuestionAnswerRequest(loggedInUser.id, question.id, answer);
   };
 
+  static getDerivedStateFromProps(props) {
+    const { answeredQuestions, question } = props;
+    const answeredQuestion = answeredQuestions.find(
+      quest => quest.id === question.id,
+    );
+
+    if (answeredQuestion) {
+      return { activateAnswerMode: true };
+    }
+    return {};
+  }
+
   handleChange = (e, { value }) => this.setState({ value });
 
   render() {
-    const { value } = this.state;
+    const { activateAnswerMode, value } = this.state;
     const { question, userInfo } = this.props;
 
     return (
-      <Grid columns={3} centered style={{ paddingTop: '30px' }}>
+      <Grid
+        columns={activateAnswerMode ? 2 : 3}
+        centered
+        style={{ paddingTop: '30px' }}
+      >
         <Grid.Column>
           <Header
             as="h3"
@@ -58,7 +75,7 @@ class PollPage extends Component {
             textAlign="center"
             inverted
           >
-            Poll
+            Poll - {activateAnswerMode ? 'Answer' : 'Question'}
           </Header>
 
           <Segment attached stacked padded>
@@ -69,12 +86,16 @@ class PollPage extends Component {
               </Card.Content>
 
               <Card.Content extra>
-                <AnswerQuestionForm
-                  value={value}
-                  question={question}
-                  handleChange={this.handleChange}
-                  onSubmitHandler={this.onSubmitHandler}
-                />
+                {activateAnswerMode ? (
+                  <h1>Answer</h1>
+                ) : (
+                  <AnswerQuestionForm
+                    value={value}
+                    question={question}
+                    handleChange={this.handleChange}
+                    onSubmitHandler={this.onSubmitHandler}
+                  />
+                )}
               </Card.Content>
             </Card>
           </Segment>
@@ -92,6 +113,10 @@ const mapStateToProps = ({ questions, users }, { match }) => ({
     match.params.question_id,
   ),
   loggedInUser: users.loggedInUser,
+  answeredQuestions: getAnsweredQuestions(
+    questions.questions,
+    users.loggedInUser.id,
+  ),
 });
 
 export default connect(

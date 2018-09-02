@@ -3,7 +3,7 @@ import { Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import DashboardPage from '../pages/DashboardPage';
+import QuestionsPage from '../pages/QuestionsPage';
 import LeaderBoardPage from '../pages/LeaderBoardPage';
 import LoginPage from '../pages/LoginPage';
 import PollPage from '../pages/PollPage';
@@ -12,9 +12,9 @@ import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
 import {
   ADD_QUESTION_PAGE_URL,
-  QUESTIONS_PAGE_URL,
   LEADER_BOARD_PAGE_URL,
   LOGIN_PAGE_URL,
+  QUESTIONS,
 } from '../constants/pageUrls';
 
 const App = ({ isAuthed }) => (
@@ -28,8 +28,8 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={QUESTIONS_PAGE_URL}
-      component={DashboardPage}
+      path={QUESTIONS}
+      component={QuestionsPage}
       isAuthed={isAuthed}
     />
 
@@ -49,7 +49,7 @@ const App = ({ isAuthed }) => (
 
     <PrivateRouteHOC
       exact
-      path={`${QUESTIONS_PAGE_URL}/:question_id`}
+      path={`${QUESTIONS}/:question_id`}
       component={PollPage}
       isAuthed={isAuthed}
     />

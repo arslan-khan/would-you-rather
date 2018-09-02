@@ -10,7 +10,7 @@ import {
   getUnansweredQuestions,
 } from '../selectors/questionsSelectors';
 
-class DashboardPage extends Component {
+class QuestionsPage extends Component {
   static propTypes = {
     fetchQuestionsRequest: PropTypes.func.isRequired,
     users: PropTypes.shape({}).isRequired,
@@ -100,4 +100,4 @@ const mapStateToProps = ({ questions, users }) => ({
 export default connect(
   mapStateToProps,
   { fetchQuestionsRequest },
-)(DashboardPage);
+)(QuestionsPage);

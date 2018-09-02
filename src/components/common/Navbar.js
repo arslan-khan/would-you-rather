@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 
 import {
   ADD_QUESTION_PAGE_URL,
-  QUESTIONS_PAGE_URL,
+  QUESTIONS,
   LEADER_BOARD_PAGE_URL,
 } from '../../constants/pageUrls';
 import { logoutRequest } from '../../actions/sessionActions';
 
 const Navbar = ({ loggedInUser, logoutRequest }) => (
   <Menu pointing secondary>
-    <Menu.Item name="home" as={NavLink} to={QUESTIONS_PAGE_URL} exact />
+    <Menu.Item name="home" as={NavLink} to={QUESTIONS} exact />
     <Menu.Item
       name="new question"
       as={NavLink}

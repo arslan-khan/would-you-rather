@@ -3,7 +3,7 @@ import { Item, List, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { QUESTIONS_PAGE_URL } from '../../constants/pageUrls';
+import { QUESTIONS } from '../../constants/pageUrls';
 
 const Question = ({ users, question }) => (
   <Item>
@@ -24,7 +24,7 @@ const Question = ({ users, question }) => (
           floated="right"
           color="teal"
           as={Link}
-          to={`${QUESTIONS_PAGE_URL}/${question.id}`}
+          to={`${QUESTIONS}/${question.id}`}
         >
           View Poll
         </Button>
