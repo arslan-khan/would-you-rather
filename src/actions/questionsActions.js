@@ -49,8 +49,8 @@ const saveQuestionAnswerRequest = (
 ) => async dispatch => {
   dispatch(activateLoader());
   await saveQuestionAnswer({ authedUser, qid, answer });
-  dispatch(fetchQuestionsRequest());
-  await dispatch(fetchUsersRequest());
+  dispatch(fetchUsersRequest());
+  await dispatch(fetchQuestionsRequest());
   dispatch(setQuestionsToDefaultStateRequest());
 };
 
