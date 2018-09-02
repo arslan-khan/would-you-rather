@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, withRouter } from 'react-router-dom';
+import { Switch, withRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,6 +8,7 @@ import LeaderBoardPage from '../pages/LeaderBoardPage';
 import LoginPage from '../pages/LoginPage';
 import PollPage from '../pages/PollPage';
 import NewQuestionPage from '../pages/NewQuestionPage';
+import PageNotFound from '../pages/PageNotFound';
 import PrivateRouteHOC from '../hoc/PrivateRouteHOC';
 import PublicRouteHOC from '../hoc/PublicRouteHOC';
 import {
@@ -54,6 +55,8 @@ const App = ({ isAuthed }) => (
       component={PollPage}
       isAuthed={isAuthed}
     />
+
+    <Route component={PageNotFound} />
   </Switch>
 );
 

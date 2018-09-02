@@ -7,8 +7,9 @@ const AnswerQuestionForm = ({
   question,
   handleChange,
   onSubmitHandler,
+  isSubmitting,
 }) => (
-  <Form onSubmit={() => onSubmitHandler()}>
+  <Form onSubmit={() => onSubmitHandler()} loading={isSubmitting}>
     <Form.Field>Would You Rather...</Form.Field>
     <Form.Field>
       <Radio
@@ -48,6 +49,7 @@ AnswerQuestionForm.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   onSubmitHandler: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
 
 AnswerQuestionForm.defaultProps = { value: null };

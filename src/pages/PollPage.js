@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AnswerQuestionForm from '../components/forms/AnswerQuestionForm';
+import Answer from '../components/Questions/Answer';
 import {
   getQuestionById,
   getAnsweredQuestions,
@@ -25,6 +26,7 @@ class PollPage extends Component {
     }).isRequired,
     loggedInUser: PropTypes.shape({}).isRequired,
     saveQuestionAnswerRequest: PropTypes.func.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
   };
 
   state = { activateAnswerMode: false };
@@ -59,14 +61,10 @@ class PollPage extends Component {
 
   render() {
     const { activateAnswerMode, value } = this.state;
-    const { question, userInfo } = this.props;
+    const { question, loggedInUser, userInfo, isSubmitting } = this.props;
 
     return (
-      <Grid
-        columns={activateAnswerMode ? 2 : 3}
-        centered
-        style={{ paddingTop: '30px' }}
-      >
+      <Grid columns={3} centered style={{ paddingTop: '30px' }}>
         <Grid.Column>
           <Header
             as="h3"
@@ -87,13 +85,14 @@ class PollPage extends Component {
 
               <Card.Content extra>
                 {activateAnswerMode ? (
-                  <h1>Answer</h1>
+                  <Answer question={question} loggedInUser={loggedInUser} />
                 ) : (
                   <AnswerQuestionForm
                     value={value}
                     question={question}
                     handleChange={this.handleChange}
                     onSubmitHandler={this.onSubmitHandler}
+                    isSubmitting={isSubmitting}
                   />
                 )}
               </Card.Content>
@@ -117,6 +116,7 @@ const mapStateToProps = ({ questions, users }, { match }) => ({
     questions.questions,
     users.loggedInUser.id,
   ),
+  isSubmitting: questions.isSubmitting,
 });
 
 export default connect(

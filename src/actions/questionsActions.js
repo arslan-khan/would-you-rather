@@ -47,8 +47,11 @@ const saveQuestionAnswerRequest = (
   qid,
   answer,
 ) => async dispatch => {
+  dispatch(activateLoader());
   await saveQuestionAnswer({ authedUser, qid, answer });
-  await dispatch(fetchQuestionsRequest());
+  dispatch(fetchQuestionsRequest());
+  await dispatch(fetchUsersRequest());
+  dispatch(setQuestionsToDefaultStateRequest());
 };
 
 export {

@@ -58,7 +58,7 @@ class LoginPage extends Component {
       <Grid columns={3} centered style={{ paddingTop: '100px' }}>
         <Grid.Column>
           <Header as="h1" textAlign="center" icon>
-            <Icon name="balance scale" circular color="teal" inverted />
+            <Icon name="exchange" circular color="teal" inverted />
             <Header.Content>Would You Rather</Header.Content>
           </Header>
 
