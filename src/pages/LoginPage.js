@@ -68,10 +68,10 @@ class LoginPage extends Component {
             )}
 
             <LoginForm
-              onSubmitHandler={this.onSubmitHandler}
               users={users}
               name={name}
               onChangeHandler={this.onChangeHandler}
+              onSubmitHandler={this.onSubmitHandler}
             />
           </Segment>
         </Grid.Column>

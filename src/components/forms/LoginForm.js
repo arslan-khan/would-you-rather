@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Input, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ onSubmitHandler, users, name, onChangeHandler }) => (
+const LoginForm = ({ users, name, onChangeHandler, onSubmitHandler }) => (
   <Form onSubmit={onSubmitHandler} loading={!users}>
     <Form.Field
       id="name"
