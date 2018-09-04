@@ -63,7 +63,7 @@ class LoginPage extends Component {
     const { users } = this.props;
 
     return (
-      <Transition visible={visible} animation="fade up" duration={1500}>
+      <Transition visible={visible} animation="fade up" duration={1000}>
         <Grid columns={3} centered style={{ paddingTop: '100px' }}>
           <Grid.Column>
             <Header as="h1" textAlign="center" icon>

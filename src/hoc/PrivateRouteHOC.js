@@ -19,6 +19,7 @@ const PrivateRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
         <Redirect
           to={{
             pathname: `${LOGIN_PAGE_URL}`,
+            search: `?next=${props.location.pathname}`,
             state: { from: props.location },
           }}
         />
@@ -30,7 +31,9 @@ const PrivateRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
 PrivateRouteHOC.propTypes = {
   component: PropTypes.func.isRequired,
   isAuthed: PropTypes.bool.isRequired,
-  location: PropTypes.shape({}),
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }),
 };
 
 PrivateRouteHOC.defaultProps = {

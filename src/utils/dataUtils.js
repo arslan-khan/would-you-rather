@@ -128,7 +128,7 @@ function generateUID() {
 
 function getUsers() {
   return new Promise((res, rej) => {
-    setTimeout(() => res({ ...users }), 500);
+    setTimeout(() => res({ ...users }), 250);
   });
 }
 

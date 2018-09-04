@@ -13,7 +13,8 @@ const PublicRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: `${DASHBOARD_PAGE_URL}`,
+            pathname:
+              props.location.search.split('=')[1] || `${DASHBOARD_PAGE_URL}`,
             state: { from: props.location },
           }}
         />
@@ -25,7 +26,9 @@ const PublicRouteHOC = ({ component: Component, isAuthed, ...rest }) => (
 PublicRouteHOC.propTypes = {
   component: PropTypes.func.isRequired,
   isAuthed: PropTypes.bool.isRequired,
-  location: PropTypes.shape({}),
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }),
 };
 
 PublicRouteHOC.defaultProps = {
