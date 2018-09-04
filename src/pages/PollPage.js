@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Card, Image, Header, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import AnswerQuestionForm from '../components/forms/AnswerQuestionForm';
 import Answer from '../components/Questions/Answer';
@@ -11,22 +12,26 @@ import {
 } from '../selectors/questionsSelectors';
 import { getUserInfo } from '../selectors/usersSelectors';
 import { saveQuestionAnswerRequest } from '../actions/questionsActions';
+import { PAGE_NOT_FOUND } from '../constants/pageUrls';
 
 class PollPage extends Component {
   static propTypes = {
     question: PropTypes.shape({
-      optionOne: PropTypes.shape({ text: PropTypes.string.isRequired })
-        .isRequired,
-      optionTwo: PropTypes.shape({ text: PropTypes.string.isRequired })
-        .isRequired,
-    }).isRequired,
+      optionOne: PropTypes.shape({ text: PropTypes.string }),
+      optionTwo: PropTypes.shape({ text: PropTypes.string }),
+    }),
     userInfo: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      avatarURL: PropTypes.string.isRequired,
-    }).isRequired,
+      name: PropTypes.string,
+      avatarURL: PropTypes.string,
+    }),
     loggedInUser: PropTypes.shape({}).isRequired,
     saveQuestionAnswerRequest: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    question: null,
+    userInfo: null,
   };
 
   state = { activateAnswerMode: false };
@@ -47,9 +52,13 @@ class PollPage extends Component {
 
   static getDerivedStateFromProps(props) {
     const { answeredQuestions, question } = props;
-    const answeredQuestion = answeredQuestions.find(
-      quest => quest.id === question.id,
-    );
+
+    let answeredQuestion;
+    if (question) {
+      answeredQuestion = answeredQuestions.find(
+        quest => quest.id === question.id,
+      );
+    }
 
     if (answeredQuestion) {
       return { activateAnswerMode: true };
@@ -62,6 +71,8 @@ class PollPage extends Component {
   render() {
     const { activateAnswerMode, value } = this.state;
     const { question, loggedInUser, userInfo, isSubmitting } = this.props;
+
+    if (!userInfo) return <Redirect to={PAGE_NOT_FOUND} />;
 
     return (
       <Grid columns={3} centered style={{ paddingTop: '30px' }}>
