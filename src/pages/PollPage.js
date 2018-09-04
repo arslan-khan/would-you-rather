@@ -52,8 +52,8 @@ class PollPage extends Component {
 
   static getDerivedStateFromProps(props) {
     const { answeredQuestions, question } = props;
-
     let answeredQuestion;
+
     if (question) {
       answeredQuestion = answeredQuestions.find(
         quest => quest.id === question.id,
