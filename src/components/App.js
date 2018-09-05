@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Switch, withRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,85 +18,54 @@ import {
   LOGIN_PAGE_URL,
   QUESTIONS,
 } from '../constants/pageUrls';
-import { fetchQuestionsRequest } from '../actions/questionsActions';
 
-class App extends PureComponent {
-  static propTypes = {
-    isAuthed: PropTypes.bool.isRequired,
-    questions: PropTypes.shape({}),
-    fetchQuestionsRequest: PropTypes.func.isRequired,
-  };
+const App = ({ isAuthed }) => (
+  <Switch>
+    <PublicRouteHOC
+      exact
+      path={LOGIN_PAGE_URL}
+      component={LoginPage}
+      isAuthed={isAuthed}
+    />
 
-  static defaultProps = { questions: null };
+    <PrivateRouteHOC
+      exact
+      path={DASHBOARD_PAGE_URL}
+      component={QuestionsPage}
+      isAuthed={isAuthed}
+    />
 
-  componentDidMount() {
-    const { questions, fetchQuestionsRequest } = this.props;
-    if (!questions) {
-      fetchQuestionsRequest();
-    }
-  }
+    <PrivateRouteHOC
+      exact
+      path={LEADER_BOARD_PAGE_URL}
+      component={LeaderBoardPage}
+      isAuthed={isAuthed}
+    />
 
-  componentDidUpdate(prevProps) {
-    const { questions, fetchQuestionsRequest } = this.props;
-    if (prevProps.questions !== questions && !questions) {
-      fetchQuestionsRequest();
-    }
-  }
+    <PrivateRouteHOC
+      exact
+      path={ADD_QUESTION_PAGE_URL}
+      component={NewQuestionPage}
+      isAuthed={isAuthed}
+    />
 
-  render() {
-    const { isAuthed } = this.props;
+    <PrivateRouteHOC
+      exact
+      path={`${QUESTIONS}/:question_id`}
+      component={PollPage}
+      isAuthed={isAuthed}
+    />
 
-    return (
-      <Switch>
-        <PublicRouteHOC
-          exact
-          path={LOGIN_PAGE_URL}
-          component={LoginPage}
-          isAuthed={isAuthed}
-        />
+    <Route component={PageNotFound} />
+  </Switch>
+);
 
-        <PrivateRouteHOC
-          exact
-          path={DASHBOARD_PAGE_URL}
-          component={QuestionsPage}
-          isAuthed={isAuthed}
-        />
+App.propTypes = {
+  isAuthed: PropTypes.bool.isRequired,
+};
 
-        <PrivateRouteHOC
-          exact
-          path={LEADER_BOARD_PAGE_URL}
-          component={LeaderBoardPage}
-          isAuthed={isAuthed}
-        />
-
-        <PrivateRouteHOC
-          exact
-          path={ADD_QUESTION_PAGE_URL}
-          component={NewQuestionPage}
-          isAuthed={isAuthed}
-        />
-
-        <PrivateRouteHOC
-          exact
-          path={`${QUESTIONS}/:question_id`}
-          component={PollPage}
-          isAuthed={isAuthed}
-        />
-
-        <Route component={PageNotFound} />
-      </Switch>
-    );
-  }
-}
-
-const mapStateToProps = ({ session, questions }) => ({
+const mapStateToProps = ({ session }) => ({
   isAuthed: session.isAuthed,
-  questions: questions.questions,
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { fetchQuestionsRequest },
-  )(App),
-);
+export default withRouter(connect(mapStateToProps)(App));
